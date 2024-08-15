@@ -13,13 +13,25 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('neighbor-diff.helloWorld', () => {
+	const disposable1 = vscode.commands.registerCommand('neighbor-diff.helloWorld', () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
 		vscode.window.showInformationMessage('Hello World from neighbor diff!');
 	});
+	
+	let disposable2 = vscode.window.onDidChangeTextEditorSelection((event) => {
+        const editor = event.textEditor;
+        if (!editor) {
+            return; // エディタが開いていない場合は何もしない
+        }
 
-	context.subscriptions.push(disposable);
+        const currentLine = editor.selection.active.line;
+        console.log(`現在の行番号: ${currentLine}`);
+    });
+
+    context.subscriptions.push(disposable1);
+
+	context.subscriptions.push(disposable2);
 }
 
 // This method is called when your extension is deactivated
