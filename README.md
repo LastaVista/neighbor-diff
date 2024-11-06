@@ -1,71 +1,44 @@
-# neighbor-diff README
+# NEIGHBOR DIFF (neighbor-diff)
 
-This is the README for your extension "neighbor-diff". After writing up a brief description, we recommend including the following sections.
+## 概要
+NEIGHBOR DIFFは、Visual Studio Codeの拡張機能で、現在の行と前の行の差分をハイライト表示します。
 
-## Features
+## 特徴
+- 現在の行と前の行の差分を視覚的に確認できます。
+- 最大20行前までの行を走査し、一致度が50%以上の最初の行を比較対象とします。
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## インストール
+1. [GitHubリポジトリ](https://github.com/LastaVista/neighbor-diff/releases)から最新の `.vsix` ファイルをダウンロードします。
+2. Visual Studio Codeを開き、コマンドパレット（`Ctrl+Shift+P` または `Cmd+Shift+P`）を開きます。
+3. 「Extensions: Install from VSIX...」を選択し、ダウンロードした `.vsix` ファイルを選択します。
 
-For example if there is an image subfolder under your extension project workspace:
+## 使用方法
+1. Visual Studio Codeで任意のテキストファイルを開きます。
+2. テキストエディタ内でカーソルを移動すると、現在の行と前の行の差分がハイライト表示されます。
 
-\!\[feature X\]\(images/feature-x.png\)
+## ライセンス
+この拡張機能はMITライセンスの下で提供されています。
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+### 使用しているライブラリ
+- `diff-match-patch` ライブラリはApache License 2.0の下でライセンスされています。
 
-## Requirements
+## 貢献
+貢献を歓迎します！バグ報告や機能リクエストは、[GitHubのIssueトラッカー](https://github.com/LastaVista/neighbor-diff/issues)を通じて行ってください。
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## 開発
+1. リポジトリをクローンします。
+    ```sh
+    git clone https://github.com/LastaVista/neighbor-diff.git
+    ```
+2. 依存関係をインストールします。
+    ```sh
+    npm install
+    ```
+3. 拡張機能をビルドします。
+    ```sh
+    npm run compile
+    ```
+4. Visual Studio Codeでデバッグを開始します。
 
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+## 作者
+- [LastaVista](https://github.com/LastaVista)
