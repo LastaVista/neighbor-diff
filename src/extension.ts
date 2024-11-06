@@ -7,6 +7,9 @@ import { diff_match_patch, DIFF_INSERT, DIFF_DELETE, DIFF_EQUAL } from 'diff-mat
 // 前の行と現在の行が一致する割合のしきい値（0.5 = 50%）
 const SIMILARITY_THRESHOLD = 0.5;
 
+// 最大走査行数
+const MAX_SCAN_LINES = 20;
+
 let previousDecorations: vscode.TextEditorDecorationType[] = [];
 
 export function activate(context: vscode.ExtensionContext) {
@@ -25,16 +28,23 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         const document = editor.document;
-        const previousLineText = document.lineAt(currentLine - 1).text;
         const currentLineText = document.lineAt(currentLine).text;
 
         // 前のデコレーションをクリア
         clearPreviousDecorations();
 
-        // 前の行と現在の行がしきい値以上に同じかどうかをチェック
-        if (linesAreSimilar(previousLineText, currentLineText)) {
-            // 前後の行を比較して差分をハイライト
-            compareLines(previousLineText, currentLineText, editor);
+        // 現在の行から前の行に向かって順番に走査（最大MAX_SCAN_LINES行前まで）
+        const scanLinesLimit = Math.min(currentLine, MAX_SCAN_LINES);
+        for (let i = 1; i <= scanLinesLimit; i++) {
+            let previousLineIndex = currentLine - i;
+            const previousLineText = document.lineAt(previousLineIndex).text;
+
+            // 前の行と現在の行がしきい値以上に同じかどうかをチェック
+            if (linesAreSimilar(previousLineText, currentLineText)) {
+                // 前後の行を比較して差分をハイライト
+                compareLines(previousLineText, currentLineText, editor, i);
+                break; // 一致する行が見つかったらループを抜ける
+            }
         }
     });
 
@@ -64,7 +74,7 @@ function linesAreSimilar(previousLine: string, currentLine: string): boolean {
     return (equalLength / totalLength) >= SIMILARITY_THRESHOLD;
 }
 
-function compareLines(previousLine: string, currentLine: string, editor: vscode.TextEditor): void {
+function compareLines(previousLine: string, currentLine: string, editor: vscode.TextEditor, linesBeforeCurrent: number): void {
     const dmp = new diff_match_patch();
 
     // diff_mainで差分を計算
@@ -91,7 +101,7 @@ function compareLines(previousLine: string, currentLine: string, editor: vscode.
             currentIndex += length;
         } else if (operation === DIFF_DELETE) {
             // 削除されたテキスト（前の行に存在した部分）の背景色を緑でハイライト
-            previousDeleteRanges.push(new vscode.Range(editor.selection.active.line - 1, previousIndex, editor.selection.active.line - 1, previousIndex + length));
+            previousDeleteRanges.push(new vscode.Range(editor.selection.active.line - linesBeforeCurrent, previousIndex, editor.selection.active.line - linesBeforeCurrent, previousIndex + length));
             previousIndex += length;
         }
     });
